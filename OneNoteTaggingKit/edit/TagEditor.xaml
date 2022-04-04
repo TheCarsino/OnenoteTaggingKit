@@ -43,13 +43,15 @@
             <RowDefinition Height="2*" MinHeight="100" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition />
+            <ColumnDefinition Width="31" />
+            <ColumnDefinition Width="3"/>
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Row="0"
                     Orientation="Horizontal"
                     Margin="5,5,0,0"
-                    HorizontalAlignment="Left">
+                    HorizontalAlignment="Left" Width="261">
             <ComboBox Name="taggingScope"
                 HorizontalAlignment="Center"
                 SelectedIndex="{Binding ScopeIndex}"
@@ -110,10 +112,10 @@
         </StackPanel>
         <cui:TagList Grid.Row="1"
                     x:Name="selectedTags"
-                    Margin="5,0,5,0"
+                    Margin="5,0,0,7"
                     Background="Transparent"
                     TagSource="{Binding Path=SelectedTags,Mode=OneWay}"
-                    Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tags_GroupBox_Title}}">
+                    Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Tags_GroupBox_Title}}" Grid.ColumnSpan="2">
             <cui:TagList.TagTemplate>
                 <DataTemplate>
                     <cui:Tag Margin="0,5,5,0"
@@ -131,7 +133,7 @@
                 BorderThickness="0" BorderBrush="LightBlue"
                 Margin="0,0,25,0"
                 ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_ClearTags_Button_Tooltip}}"
-                Click="ClearTagsButton_Click">
+                Click="ClearTagsButton_Click" Height="26">
             <Image Source="/OneNoteTaggingKit;component/Resources/clear selection.png" />
         </Button>
 
@@ -140,7 +142,7 @@
                       ResizeDirection="Rows"
                       VerticalAlignment="Top"
                       HorizontalAlignment="Stretch"
-                      Height="5">
+                      Height="6" Margin="0,2,0,0" Grid.ColumnSpan="3">
             <GridSplitter.Background>
                 <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
                     <GradientStop Color="Black" Offset="1" />
@@ -155,12 +157,30 @@
                          ContextTagsSource="{Binding ContextTagCollection}"
                          IncludeMappedTags="True"
                          TagInput="TagInputBox_Input" />
-        <cui:TagList Grid.Row="3"
+        <Button x:Name="newTagButton"
+            Grid.Row="2"
+            Grid.Column="1"
+            Width="26"
+            Height="26"
+            HorizontalAlignment="Center"
+            Click="NewTagButton_Click"
+            Margin="0,10,0,0"
+            Background="GreenYellow"
+            Style="{StaticResource controlEffectStyle}"
+            ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagManager_NewTagButton_Tooltip}}">
+            <TextBlock  VerticalAlignment="Center"
+                FontFamily="Segoe UI Symbol"
+                FontSize="22"
+                FontWeight="ExtraBold"
+                Text="✙"
+                TextAlignment="Center" />
+        </Button>
+        <cui:TagList Grid.Row="2"
                     x:Name="suggestedTags"
-                    Margin="5,0,5,0"
+                    Margin="5,36,0,0"
                     Background="Transparent"
                     TagSource="{Binding Path=TagSuggestions,Mode=OneWay}"
-                    Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Suggestions_GroupBox_Title}}">
+                    Header="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Suggestions_GroupBox_Title}}" Grid.RowSpan="2" Grid.ColumnSpan="2">
             <cui:TagList.TagTemplate>
                 <DataTemplate>
                     <cui:SelectableTag Margin="0,5,5,0"
@@ -169,15 +189,15 @@
                 </DataTemplate>
             </cui:TagList.TagTemplate>
         </cui:TagList>
-        <Button Grid.Row="3"
+        <Button Grid.Row="2"
                 Width="26"
                 Background="Transparent"
                 VerticalAlignment="Top"
                 HorizontalAlignment="Right"
                 BorderThickness="0" BorderBrush="LightBlue"
-                Margin="0,0,25,0"
+                Margin="0,36,25,0"
                 ToolTip="{Binding Mode=OneTime, Source={x:Static prop:Resources.TagEditor_Select_Matching_Tags_Button_Tooltip}}"
-                Click="SelectMatchingTagsButton_Click">
+                Click="SelectMatchingTagsButton_Click" Height="27" Grid.RowSpan="2">
             <TextBlock Text=""
                        FontWeight="Heavy"
                        FontFamily="Segoe UI Symbol"
@@ -185,6 +205,6 @@
                        HorizontalAlignment="Stretch"
                        Margin="0,-2,0,0" />
         </Button>
-        <ProgressBar Name="pBar" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" />
+        <ProgressBar Name="pBar" Grid.Row="3" Height="20" Width="100" />
     </Grid>
 </Window>

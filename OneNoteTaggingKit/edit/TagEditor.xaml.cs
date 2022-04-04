@@ -205,5 +205,11 @@ namespace WetHatLab.OneNote.TaggingKit.edit
                 }
             }
         }
+        private void NewTagButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+
     }
 }
