@@ -219,5 +219,13 @@ namespace WetHatLab.OneNote.TaggingKit.edit
             SelectedTags.Dispose();
         }
         #endregion IDisposable
+
+        /// <summary>
+        /// Persist any changes
+        /// </summary>
+        internal void SaveChanges()
+        {
+            TagSuggestions.Save();
+        }
     }
 }

@@ -207,7 +207,12 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         }
         private void NewTagButton_Click(object sender, RoutedEventArgs e)
         {
-
+            var tagset = new PageTagSet(tagInput.TagNames, (TagFormat)Properties.Settings.Default.TagFormatting);   //Get tagsets
+            _model.TagSuggestions.AddAll(from t in tagset where !_model.TagSuggestions.ContainsKey(t.Key) select new SelectableTagModel() { IsSelected = true });
+            
+            tagInput.Clear();
+            _model.SaveChanges();
+            e.Handled = true;
         }
 
 
