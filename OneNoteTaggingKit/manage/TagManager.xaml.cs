@@ -11,6 +11,12 @@ using WetHatLab.OneNote.TaggingKit.common.ui;
 using WetHatLab.OneNote.TaggingKit.HierarchyBuilder;
 using WetHatLab.OneNote.TaggingKit.Tagger;
 
+using System.ComponentModel;
+using System.Text;
+
+using System.IO;
+
+
 namespace WetHatLab.OneNote.TaggingKit.manage
 {
     /// <summary>
@@ -108,11 +114,35 @@ namespace WetHatLab.OneNote.TaggingKit.manage
         /// <param name="e">     event details</param>
         private void NewTagButton_Click(object sender, RoutedEventArgs e)
         {
+            //FILESYSTEM - .DLL  - @"C: \Users\HPCOREI7\AppData\Local\Temp\
+            StreamWriter File = new StreamWriter(@"F:\Trabajos\Laboral\SoftBrilliance\Investigación\OneNoteTaggingKit_v2\Console_log_Manage.txt");
+            File.Write("File Start - FOR MANAGER\r\n");
+            File.Write("----------------------------------\r\n");
+
+            for (int i = 0; i < _model.SuggestedTags.Count; i++)
+            {
+                File.Write("BEFORE ADDING:\r\n" + _model.SuggestedTags[0].ToString() + "\r\n\r\n");
+            }
+
             var tagset = new PageTagSet(tagInput.TagNames, (TagFormat)Properties.Settings.Default.TagFormatting);
-            _model.SuggestedTags.AddAll(from t in tagset where!_model.SuggestedTags.ContainsKey(t.Key) select new RemovableTagModel() { PageTag = new TagPageSet(t) });
+            _model.SuggestedTags.AddAll(from t in tagset where !_model.SuggestedTags.ContainsKey(t.Key) select new RemovableTagModel() { PageTag = new TagPageSet(t) });
+            
+            
+            File.Write("----------------------------------\r\n----------------------------------\r\n");
+            for (int i = 0; i < _model.SuggestedTags.Count; i++)
+            {
+                File.Write("AFTER ADDING:\r\n" + _model.SuggestedTags[0].ToString() + "\r\n\r\n");
+            }
+
             tagInput.Clear();
             _model.SaveChanges();
             e.Handled = true;
+
+
+            //FILESYSTEM - .DLL
+            File.Write("----------------------------------\r\n");
+            File.Write("File End\r\n");
+            File.Close();
         }
 
         #region IOneNotePageDialog<TagManagerModel>
@@ -166,7 +196,9 @@ namespace WetHatLab.OneNote.TaggingKit.manage
                         tagInput.FocusInput();
                         break;
                     case "Refresh":
-                        await _model.LoadSuggestedTagsAsync();
+                        await _model.LoadSuggestedTagsAsync
+                            
+                            ();
                         if (tagInput.TagNames != null) {
                             _model.SuggestedTags.Highlighter = new TextSplitter(tagInput.TagNames);
                         }

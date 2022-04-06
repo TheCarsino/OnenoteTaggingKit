@@ -1,5 +1,8 @@
 ﻿using System.Windows;
 
+using System.Text;
+using System.Linq;
+
 namespace WetHatLab.OneNote.TaggingKit.common.ui
 {
     /// <summary>
@@ -8,10 +11,43 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
     public class SelectableTagModel : FilterableTagModel
     {
         bool _isSelected = false;
+
+        /// <summary>
+        /// Create a new instance of the view model.
+        /// </summary>6
+        public SelectableTagModel()
+        {
+            IsSelected = false;
+        }
+
+        private TagPageSet _tag;
+
+        /// <summary>
+        /// Set the page tag which keeps track of the pages having this
+        /// tag.
+        /// </summary>
+        /// <remarks>
+        /// The page tag is used to provide the page count
+        /// (number of pages with this tag). If the page count is 0, the
+        /// tag isn't used anywhere.
+        /// </remarks>
+        internal TagPageSet PageTag
+        {
+            get => _tag;
+            set
+            {
+                _tag = value;
+                if (Tag == null)
+                {
+                    Tag = value.Tag;
+                }
+            }
+        }
+
         /// <summary>
         /// Get/set the tag selection flag.
         /// </summary>
-        /// <remarks>Selected tags are collapsed.</remarks>
+        /// <remarks>Selected tags are collapsed.</remarks
         public bool IsSelected {
             get => _isSelected;
             set {
@@ -33,6 +69,16 @@ namespace WetHatLab.OneNote.TaggingKit.common.ui
             } else {
                 base.UpdateTagVisibility();
             }
+        }
+
+        public override string ToString()
+        {
+            return GetType().GetProperties()
+                .Select(info => (info.Name, Value: info.GetValue(this, null) ?? "(null)"))
+                .Aggregate(
+                    new StringBuilder(),
+                    (sb, pair) => sb.AppendLine($"{pair.Name}: {pair.Value}"),
+                    sb => sb.ToString());
         }
     }
 }

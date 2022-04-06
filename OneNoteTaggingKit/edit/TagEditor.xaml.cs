@@ -10,6 +10,9 @@ using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
 using WetHatLab.OneNote.TaggingKit.Tagger;
 
+//Dotfile
+using System.IO;
+
 namespace WetHatLab.OneNote.TaggingKit.edit
 {
     /// <summary>
@@ -207,12 +210,37 @@ namespace WetHatLab.OneNote.TaggingKit.edit
         }
         private void NewTagButton_Click(object sender, RoutedEventArgs e)
         {
+            //FILESYSTEM - .DLL  - @"C: \Users\HPCOREI7\AppData\Local\Temp\
+            StreamWriter File = new StreamWriter(@"F:\Trabajos\Laboral\SoftBrilliance\Investigación\OneNoteTaggingKit_v2\Console_log.txt");
+            File.Write("File Start - FOR EDITOR\r\n");
+            File.Write("----------------------------------\r\n");
+
+
+            for (int i = 0; i < _model.TagSuggestions.Count; i++)
+            {
+                File.Write("BEFORE ADDING:\r\n" + _model.TagSuggestions[0].ToString() + "\r\n\r\n");
+            }
+
             var tagset = new PageTagSet(tagInput.TagNames, (TagFormat)Properties.Settings.Default.TagFormatting);   //Get tagsets
-            _model.TagSuggestions.AddAll(from t in tagset where !_model.TagSuggestions.ContainsKey(t.Key) select new SelectableTagModel() { IsSelected = true });
-            
+            _model.TagSuggestions.AddAll(from t in tagset where !_model.TagSuggestions.ContainsKey(t.Key) select new SelectableTagModel() { PageTag = new TagPageSet(t) });
+
+            File.Write("----------------------------------\r\n----------------------------------\r\n");
+            for (int i = 0; i < _model.TagSuggestions.Count; i++)
+            {
+                File.Write("AFTER ADDING:\r\n" + _model.TagSuggestions[0].ToString() + "\r\n\r\n");
+            }
+
+
             tagInput.Clear();
             _model.SaveChanges();
             e.Handled = true;
+
+
+
+            //FILESYSTEM - .DLL
+            File.Write("File End\r\n");
+            File.Write("----------------------------------\r\n");
+            File.Close();
         }
 
 

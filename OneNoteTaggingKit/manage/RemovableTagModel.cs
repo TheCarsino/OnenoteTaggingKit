@@ -3,6 +3,9 @@ using System.Windows.Media;
 using WetHatLab.OneNote.TaggingKit.common;
 using WetHatLab.OneNote.TaggingKit.common.ui;
 
+using System.Text;
+using System.Linq;
+
 namespace WetHatLab.OneNote.TaggingKit.manage
 {
     /// <summary>
@@ -16,7 +19,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
     {
         /// <summary>
         /// Create a new instance of the view model.
-        /// </summary>
+        /// </summary>6
         public RemovableTagModel()
         {
             UseCount = 0;
@@ -92,6 +95,17 @@ namespace WetHatLab.OneNote.TaggingKit.manage
                     RaisePropertyChanged();
                 }
             }
+        }
+
+        //OVERRIDE - TOSTRING
+        public override string ToString()
+        {
+            return GetType().GetProperties()
+                .Select(info => (info.Name, Value: info.GetValue(this, null) ?? "(null)"))
+                .Aggregate(
+                    new StringBuilder(),
+                    (sb, pair) => sb.AppendLine($"{pair.Name}: {pair.Value}"),
+                    sb => sb.ToString());
         }
     }
 }

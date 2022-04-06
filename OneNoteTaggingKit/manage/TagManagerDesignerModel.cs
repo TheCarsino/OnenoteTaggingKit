@@ -28,6 +28,7 @@ namespace WetHatLab.OneNote.TaggingKit.manage
             }
         }
 
+
         /// <summary>
         /// Get the add-in build configuration.
         /// </summary>
